@@ -80,7 +80,7 @@ export default function Editor({ recordedBlob, onBack }: EditorProps) {
             await ffmpeg.exec(args);
 
             const data = await ffmpeg.readFile(outputName);
-            const newBlob = new Blob([data], { type: "video/webm" });
+            const newBlob = new Blob([new Uint8Array(data as any)], { type: "video/webm" });
             const newUrl = URL.createObjectURL(newBlob);
 
             setVideoUrl(newUrl);
