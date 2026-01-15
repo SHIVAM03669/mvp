@@ -4,6 +4,11 @@ A lightweight MVP that allows users to record their screen and microphone direct
 
 ---
 
+> [!CAUTION]
+> **Deployment Notice**: This MVP uses **Mocked Storage (Local Filesystem)**. It is designed to run **LOCALLY**.
+> If you deploy this to Netlify/Vercel, uploads will **FAIL** because serverless functions have R/O filesystems.
+> For production deployment, you must implement S3/R2 storage in `src/app/api/upload/route.ts`.
+
 ##  Features
 
 ###  Screen Recording
@@ -20,7 +25,7 @@ A lightweight MVP that allows users to record their screen and microphone direct
 
 ###  Upload & Share
 
-* Upload final video to storage (mocked local storage or S3-compatible)
+* Upload final video to storage (Mocked Local Filesystem - **Local Only**)
 * Generate a **public shareable link**
 * Public page with embedded video player
 
