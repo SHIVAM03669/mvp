@@ -1,36 +1,215 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Screen Recording & Sharing MVP
 
-## Getting Started
+A lightweight MVP that allows users to record their screen and microphone directly in the browser, trim the recording, upload it, and share it via a public link with basic viewing analytics.
 
-First, run the development server:
+---
+
+##  Features
+
+###  Screen Recording
+
+* Record **screen + microphone audio** using the **MediaRecorder API**
+* Start / Stop recording controls
+* Save raw recording as `.webm`
+
+###  Video Trimming
+
+* Trim video by **start time** and **end time**
+* Export trimmed video as **WebM**
+* Trimming handled using **ffmpeg.wasm** (runs fully in browser)
+
+###  Upload & Share
+
+* Upload final video to storage (mocked local storage or S3-compatible)
+* Generate a **public shareable link**
+* Public page with embedded video player
+
+###  Basic Analytics
+
+* View count tracking
+* Watch completion percentage tracking
+* Persistent data storage (file-based or database)
+
+---
+
+##  Tech Stack
+
+* **Next.js (App Router)**
+* **TypeScript**
+* **MediaRecorder API**
+* **ffmpeg.wasm**
+* **Tailwind CSS** (optional, minimal UI)
+* **File-based storage / Mock S3**
+* **Node.js API routes**
+
+---
+
+##  Project Structure
+
+```
+.
+├── app/
+│   ├── page.tsx               # Recording UI
+│   ├── share/[id]/page.tsx    # Public video player page
+│
+├── components/
+│   ├── Recorder.tsx
+│   ├── VideoTrimmer.tsx
+│   ├── VideoPlayer.tsx
+│
+├── lib/
+│   ├── ffmpeg.ts              # ffmpeg.wasm setup
+│   ├── storage.ts             # Upload + retrieval logic
+│   ├── analytics.ts           # View & completion tracking
+│
+├── pages/api/
+│   ├── upload.ts              # Upload endpoint
+│   ├── analytics.ts           # Analytics update
+│
+├── public/uploads/            # Mock storage
+├── data/analytics.json        # Persistent analytics data
+│
+├── README.md
+└── package.json
+```
+
+---
+
+##  Setup Instructions
+
+### 1️ Clone the repository
+
+```bash
+git clone https://github.com/your-username/screen-recorder-mvp.git
+cd screen-recorder-mvp
+```
+
+### 2️ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️ Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 4️ Open in browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+##  Architecture Decisions
 
-To learn more about Next.js, take a look at the following resources:
+### Screen Recording
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Used **MediaRecorder API** for native browser support
+* Records screen and microphone simultaneously
+* Saves raw output as `.webm` to avoid transcoding overhead
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Video Trimming
 
-## Deploy on Vercel
+* Chose **ffmpeg.wasm** to keep trimming client-side
+* Avoids server CPU cost and simplifies deployment
+* Enables instant preview and export
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Upload & Storage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Upload handled via Next.js API route
+* Storage mocked using local filesystem (`/public/uploads`)
+* Easily replaceable with **AWS S3 / Cloudflare R2**
+
+### Public Sharing
+
+* Each upload generates a unique ID
+* Public route `/share/[id]` embeds the video
+* No authentication required for viewing
+
+### Analytics
+
+* View count increments on page load
+* Completion percentage calculated using video `timeupdate` + `ended`
+* Data persisted in JSON file (can be swapped for DB)
+
+---
+
+##  Analytics Logic
+
+* **View Count:**
+  Incremented when the public page loads
+
+* **Watch Completion %:**
+
+  ```
+  watchedSeconds / totalDuration * 100
+  ```
+
+* Stored per video ID for persistence
+
+---
+
+##  UI Approach
+
+* Minimal and functional UI
+* Focused on clarity over polish
+* Tailwind used optionally for fast styling
+* Designed to showcase functionality, not visual complexity
+
+---
+
+##  What I Would Improve for Production
+
+1. **Storage**
+
+   * Move from local storage to **S3 / R2**
+   * Signed URLs for secure uploads
+
+2. **Database**
+
+   * Replace JSON files with **PostgreSQL / Prisma**
+   * Better analytics aggregation
+
+3. **Video Processing**
+
+   * Optional server-side ffmpeg for MP4 exports
+   * Background jobs using queues (BullMQ)
+
+4. **Authentication**
+
+   * User accounts and private videos
+   * Access control for shared links
+
+5. **Scalability**
+
+   * CDN for video delivery
+   * Edge analytics tracking
+
+6. **UX Enhancements**
+
+   * Timeline-based trimming UI
+   * Recording previews
+   * Error recovery for permission issues
+
+---
+
+##  Assignment Coverage Checklist
+
+*  Screen + mic recording
+*  Start / Stop controls
+*  WebM output
+*  Video trimming
+*  ffmpeg usage
+*  Upload + share link
+*  Public player page
+*  Analytics with persistence
+*  Next.js + TypeScript
+*  Clean structure
+*  README with setup & architecture
+
+---
+
