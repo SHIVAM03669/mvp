@@ -1,0 +1,112 @@
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.previewWrapper {
+    background: black;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 16 / 9;
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.tools {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+
+.trimmer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.trimLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sliders {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+}
+
+.sliderGroup {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.5rem;
+}
+
+.sliderGroup label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.sliderGroup input {
+    width: 100%;
+    cursor: pointer;
+}
+
+.success {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 4rem 1rem;
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.checkWrapper {
+    width: 80px;
+    height: 80px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.linkBox {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+}
+
+.linkBox input {
+    flex: 1;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+}
